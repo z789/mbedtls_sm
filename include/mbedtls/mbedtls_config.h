@@ -2329,6 +2329,20 @@
 #define MBEDTLS_ARIA_C
 
 /**
+ * \def MBEDTLS_SM4_C
+ *
+ * Enable the SM4 block cipher.
+ *
+ * Module:  library/sm4.c
+ * Caller:  library/cipher.c
+ *
+ * This module enables the following ciphersuites (if other requisites are
+ * enabled as well):
+ *
+ */
+#define MBEDTLS_SM4_C
+
+/**
  * \def MBEDTLS_CCM_C
  *
  * Enable the Counter with CBC-MAC (CCM) mode for 128-bit block cipher.
@@ -3054,6 +3068,16 @@
  *
  */
 #define MBEDTLS_SHA1_C
+
+/**
+ * \def MBEDTLS_SM3_C
+ *
+ * Enable the sm3 hash algorithm.
+ *
+ * Module:  library/sm3.c
+ * Caller:  library/md.c
+ */
+#define MBEDTLS_SM3_C
 
 /**
  * \def MBEDTLS_SHA224_C

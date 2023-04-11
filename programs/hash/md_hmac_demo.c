@@ -102,7 +102,8 @@ void print_buf(const char *title, unsigned char *buf, size_t len)
 int hmac_demo(void)
 {
     int ret;
-    const mbedtls_md_type_t alg = MBEDTLS_MD_SHA256;
+    //const mbedtls_md_type_t alg = MBEDTLS_MD_SHA256;
+    const mbedtls_md_type_t alg = MBEDTLS_MD_SM3;
     unsigned char out[MBEDTLS_MD_MAX_SIZE]; // safe but not optimal
 
     mbedtls_md_context_t ctx;

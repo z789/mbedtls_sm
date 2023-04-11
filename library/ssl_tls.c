@@ -5494,6 +5494,10 @@ mbedtls_md_type_t mbedtls_ssl_md_alg_from_hash(unsigned char hash)
         case MBEDTLS_SSL_HASH_SHA512:
             return MBEDTLS_MD_SHA512;
 #endif
+#if defined(MBEDTLS_MD_CAN_SM3)
+        case MBEDTLS_SSL_HASH_SM3:
+            return MBEDTLS_MD_SM3;
+#endif
         default:
             return MBEDTLS_MD_NONE;
     }
@@ -5528,6 +5532,10 @@ unsigned char mbedtls_ssl_hash_from_md_alg(int md)
 #if defined(MBEDTLS_MD_CAN_SHA512)
         case MBEDTLS_MD_SHA512:
             return MBEDTLS_SSL_HASH_SHA512;
+#endif
+#if defined(MBEDTLS_MD_CAN_SM3)
+        case MBEDTLS_MD_SM3:
+            return MBEDTLS_SSL_HASH_SM3;
 #endif
         default:
             return MBEDTLS_SSL_HASH_NONE;

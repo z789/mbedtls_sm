@@ -436,6 +436,7 @@
 #define MBEDTLS_SSL_HASH_SHA256              4
 #define MBEDTLS_SSL_HASH_SHA384              5
 #define MBEDTLS_SSL_HASH_SHA512              6
+#define MBEDTLS_SSL_HASH_SM3                 7
 
 #define MBEDTLS_SSL_SIG_ANON                 0
 #define MBEDTLS_SSL_SIG_RSA                  1

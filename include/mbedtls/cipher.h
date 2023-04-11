@@ -84,6 +84,7 @@ typedef enum {
     MBEDTLS_CIPHER_ID_CAMELLIA,  /**< The Camellia cipher. */
     MBEDTLS_CIPHER_ID_ARIA,      /**< The Aria cipher. */
     MBEDTLS_CIPHER_ID_CHACHA20,  /**< The ChaCha20 cipher. */
+    MBEDTLS_CIPHER_ID_SM4,       /**< The SM4 cipher. */
 } mbedtls_cipher_id_t;
 
 /**
@@ -165,6 +166,13 @@ typedef enum {
     MBEDTLS_CIPHER_ARIA_128_CCM_STAR_NO_TAG, /**< Aria cipher with 128-bit key and CCM_STAR_NO_TAG mode. */
     MBEDTLS_CIPHER_ARIA_192_CCM_STAR_NO_TAG, /**< Aria cipher with 192-bit key and CCM_STAR_NO_TAG mode. */
     MBEDTLS_CIPHER_ARIA_256_CCM_STAR_NO_TAG, /**< Aria cipher with 256-bit key and CCM_STAR_NO_TAG mode. */
+    MBEDTLS_CIPHER_SM4_128_ECB,         /**< SM4 cipher with 128-bit key and ECB mode. */
+    MBEDTLS_CIPHER_SM4_128_CBC,         /**< SM4 cipher with 128-bit key and CBC mode. */
+    MBEDTLS_CIPHER_SM4_128_CFB128,      /**< SM4 cipher with 128-bit key and CFB-128 mode. */
+    MBEDTLS_CIPHER_SM4_128_CTR,         /**< SM4 cipher with 128-bit key and CTR mode. */
+    MBEDTLS_CIPHER_SM4_128_GCM,         /**< SM4 cipher with 128-bit key and GCM mode. */
+    MBEDTLS_CIPHER_SM4_128_CCM,         /**< SM4 cipher with 128-bit key and CCM mode. */
+    MBEDTLS_CIPHER_SM4_128_CCM_STAR_NO_TAG, /**< SM4 cipher with 128-bit key and CCM_STAR_NO_TAG mode. */
     MBEDTLS_CIPHER_AES_128_OFB,          /**< AES 128-bit cipher in OFB mode. */
     MBEDTLS_CIPHER_AES_192_OFB,          /**< AES 192-bit cipher in OFB mode. */
     MBEDTLS_CIPHER_AES_256_OFB,          /**< AES 256-bit cipher in OFB mode. */
