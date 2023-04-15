@@ -156,6 +156,10 @@ static inline psa_algorithm_t mbedtls_psa_translate_md(mbedtls_md_type_t md_alg)
         case MBEDTLS_MD_RIPEMD160:
             return PSA_ALG_RIPEMD160;
 #endif
+#if defined(MBEDTLS_SM3_C) || defined(PSA_WANT_ALG_SM3)
+        case MBEDTLS_MD_SM3:
+            return PSA_ALG_SM3;
+#endif
         case MBEDTLS_MD_NONE:
             return 0;
         default:

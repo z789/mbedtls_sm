@@ -105,7 +105,8 @@ void print_buf(const char *title, uint8_t *buf, size_t len)
 psa_status_t hmac_demo(void)
 {
     psa_status_t status;
-    const psa_algorithm_t alg = PSA_ALG_HMAC(PSA_ALG_SHA_256);
+    //const psa_algorithm_t alg = PSA_ALG_HMAC(PSA_ALG_SHA_256);
+    const psa_algorithm_t alg = PSA_ALG_HMAC(PSA_ALG_SM3);
     uint8_t out[PSA_MAC_MAX_SIZE]; // safe but not optimal
     /* PSA_MAC_LENGTH(PSA_KEY_TYPE_HMAC, 8 * sizeof( key_bytes ), alg)
      * should work but see https://github.com/Mbed-TLS/mbedtls/issues/4320 */

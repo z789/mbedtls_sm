@@ -163,6 +163,11 @@ psa_status_t mbedtls_to_psa_error(int ret)
         case MBEDTLS_ERR_CAMELLIA_INVALID_INPUT_LENGTH:
             return PSA_ERROR_NOT_SUPPORTED;
 
+#if defined(MBEDTLS_ERR_SM4_BAD_INPUT_DATA)
+        case MBEDTLS_ERR_SM4_BAD_INPUT_DATA:
+        case MBEDTLS_ERR_SM4_INVALID_INPUT_LENGTH:
+            return PSA_ERROR_NOT_SUPPORTED;
+#endif
         case MBEDTLS_ERR_CCM_BAD_INPUT:
             return PSA_ERROR_INVALID_ARGUMENT;
         case MBEDTLS_ERR_CCM_AUTH_FAILED:
@@ -504,16 +509,16 @@ psa_status_t psa_validate_unstructured_key_bit_size(psa_key_type_t type,
             }
             break;
 #endif
-#if defined(PSA_WANT_KEY_TYPE_DES)
-        case PSA_KEY_TYPE_DES:
-            if (bits != 64 && bits != 128 && bits != 192) {
+#if defined(PSA_WANT_KEY_TYPE_SM4)
+        case PSA_KEY_TYPE_SM4:
+            if (bits != 128) {
                 return PSA_ERROR_INVALID_ARGUMENT;
             }
             break;
 #endif
-#if defined(PSA_WANT_KEY_TYPE_CHACHA20)
-        case PSA_KEY_TYPE_CHACHA20:
-            if (bits != 256) {
+#if defined(PSA_WANT_KEY_TYPE_DES)
+        case PSA_KEY_TYPE_DES:
+            if (bits != 64 && bits != 128 && bits != 192) {
                 return PSA_ERROR_INVALID_ARGUMENT;
             }
             break;

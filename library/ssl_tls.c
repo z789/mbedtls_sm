@@ -2791,6 +2791,21 @@ psa_status_t mbedtls_ssl_cipher_to_psa(mbedtls_cipher_type_t mbedtls_cipher_type
             *key_type = PSA_KEY_TYPE_ARIA;
             *key_size = 256;
             break;
+        case MBEDTLS_CIPHER_SM4_128_CBC:
+            *alg = PSA_ALG_CBC_NO_PADDING;
+            *key_type = PSA_KEY_TYPE_SM4;
+            *key_size = 128;
+            break;
+        case MBEDTLS_CIPHER_SM4_128_CCM:
+            *alg = taglen ? PSA_ALG_AEAD_WITH_SHORTENED_TAG(PSA_ALG_CCM, taglen) : PSA_ALG_CCM;
+            *key_type = PSA_KEY_TYPE_SM4;
+            *key_size = 128;
+            break;
+        case MBEDTLS_CIPHER_SM4_128_GCM:
+            *alg = PSA_ALG_GCM;
+            *key_type = PSA_KEY_TYPE_SM4;
+            *key_size = 128;
+            break;
         case MBEDTLS_CIPHER_CAMELLIA_128_CBC:
             *alg = PSA_ALG_CBC_NO_PADDING;
             *key_type = PSA_KEY_TYPE_CAMELLIA;

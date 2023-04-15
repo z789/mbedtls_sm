@@ -52,6 +52,9 @@ static const hash_entry hash_table[] = {
 #if defined(MBEDTLS_MD_CAN_SHA512)
     { PSA_ALG_SHA_512, MBEDTLS_MD_SHA512, 64, 128 },
 #endif
+#if defined(MBEDTLS_MD_CAN_SM3)
+    { PSA_ALG_SM3, MBEDTLS_MD_SM3, 32, 64 },
+#endif
     { PSA_ALG_NONE, MBEDTLS_MD_NONE, 0, 0 },
 };
 

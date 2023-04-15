@@ -91,7 +91,7 @@ const unsigned char msg2_part2[] = { 0x15, 0x16, 0x17 };
 const unsigned char key_bytes[32] = { 0x2a };
 
 /* Print the contents of a buffer in hex */
-void print_buf(const char *title, unsigned char *buf, size_t len)
+void print_buf(const char *title, const unsigned char *buf, size_t len)
 {
     printf("%s:", title);
     for (size_t i = 0; i < len; i++) {
@@ -155,6 +155,7 @@ static int aead_prepare(const char *info,
     /* Import key */
     int key_len = mbedtls_cipher_get_key_bitlen(ctx);
     CHK(mbedtls_cipher_setkey(ctx, key_bytes, key_len, MBEDTLS_ENCRYPT));
+    print_buf("key:", key_bytes, key_len);
 
 exit:
     return ret;
@@ -198,15 +199,23 @@ static int aead_encrypt(mbedtls_cipher_context_t *ctx, size_t tag_len,
     unsigned char *p = out;
 
     CHK(mbedtls_cipher_set_iv(ctx, iv, iv_len));
+    print_buf("iv:", iv, iv_len);
     CHK(mbedtls_cipher_reset(ctx));
     CHK(mbedtls_cipher_update_ad(ctx, ad, ad_len));
+    print_buf("ad:", ad, ad_len);
     CHK(mbedtls_cipher_update(ctx, part1, part1_len, p, &olen));
+    print_buf("part1:", part1, part1_len);
+    print_buf("part1cipher:", p, olen);
     p += olen;
     CHK(mbedtls_cipher_update(ctx, part2, part2_len, p, &olen));
+    print_buf("part2:", part2, part1_len);
+    print_buf("part2cipher:", p, olen);
     p += olen;
     CHK(mbedtls_cipher_finish(ctx, p, &olen));
+    print_buf("cipher:", p, olen);
     p += olen;
     CHK(mbedtls_cipher_write_tag(ctx, p, tag_len));
+    print_buf("tag:", p, tag_len);
     p += tag_len;
 
     olen = p - out;

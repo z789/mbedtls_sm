@@ -524,6 +524,8 @@
  * Camellia block cipher. */
 #define PSA_KEY_TYPE_CAMELLIA                       ((psa_key_type_t) 0x2403)
 
+#define PSA_KEY_TYPE_SM4                            ((psa_key_type_t) 0x2405)
+
 /** Key for the ChaCha20 stream cipher or the Chacha20-Poly1305 AEAD algorithm.
  *
  * ChaCha20 and the ChaCha20_Poly1305 construction are defined in RFC 7539.
@@ -930,6 +932,8 @@
 #define PSA_ALG_SHA3_384                        ((psa_algorithm_t) 0x02000012)
 /** SHA3-512 */
 #define PSA_ALG_SHA3_512                        ((psa_algorithm_t) 0x02000013)
+/** SM3 */
+#define PSA_ALG_SM3                             ((psa_algorithm_t) 0x02000014)
 /** The first 512 bits (64 bytes) of the SHAKE256 output.
  *
  * This is the prehashing for Ed448ph (see #PSA_ALG_ED448PH). For other

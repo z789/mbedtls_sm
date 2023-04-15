@@ -81,6 +81,7 @@ endif
 APPS = \
 	aes/crypt_and_hash \
 	cipher/cipher_aead_demo \
+	cipher/ccm \
 	hash/generic_sum \
 	hash/hello \
 	hash/md_hmac_demo \
@@ -107,6 +108,7 @@ APPS = \
 	psa/aead_demo \
 	psa/crypto_examples \
 	psa/hmac_demo \
+	psa/mac_demo \
 	psa/key_ladder_demo \
 	psa/psa_constant_names \
 	random/gen_entropy \
@@ -203,6 +205,10 @@ aes/crypt_and_hash$(EXEXT): aes/crypt_and_hash.c $(DEP)
 cipher/cipher_aead_demo$(EXEXT): cipher/cipher_aead_demo.c $(DEP)
 	echo "  CC    cipher/cipher_aead_demo.c"
 	$(CC) $(LOCAL_CFLAGS) $(CFLAGS) cipher/cipher_aead_demo.c    $(LOCAL_LDFLAGS) $(LDFLAGS) -o $@
+
+cipher/ccm$(EXEXT): cipher/ccm.c $(DEP)
+	echo "  CC    cipher/ccm.c"
+	$(CC) $(LOCAL_CFLAGS) $(CFLAGS) cipher/ccm.c    $(LOCAL_LDFLAGS) $(LDFLAGS) -o $@
 
 hash/generic_sum$(EXEXT): hash/generic_sum.c $(DEP)
 	echo "  CC    hash/generic_sum.c"
@@ -307,6 +313,10 @@ psa/crypto_examples$(EXEXT): psa/crypto_examples.c $(DEP)
 psa/hmac_demo$(EXEXT): psa/hmac_demo.c $(DEP)
 	echo "  CC    psa/hmac_demo.c"
 	$(CC) $(LOCAL_CFLAGS) $(CFLAGS) psa/hmac_demo.c    $(LOCAL_LDFLAGS) $(LDFLAGS) -o $@
+
+psa/mac_demo$(EXEXT): psa/mac_demo.c $(DEP)
+	echo "  CC    psa/mac_demo.c"
+	$(CC) $(LOCAL_CFLAGS) $(CFLAGS) psa/mac_demo.c    $(LOCAL_LDFLAGS) $(LDFLAGS) -o $@
 
 psa/key_ladder_demo$(EXEXT): psa/key_ladder_demo.c $(DEP)
 	echo "  CC    psa/key_ladder_demo.c"

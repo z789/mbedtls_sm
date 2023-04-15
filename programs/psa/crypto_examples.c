@@ -298,6 +298,151 @@ exit:
     return status;
 }
 
+static psa_status_t
+cipher_example_encrypt_decrypt_sm4_cbc_nopad_1_block(void)
+{
+    enum {
+        block_size = PSA_BLOCK_CIPHER_BLOCK_LENGTH(PSA_KEY_TYPE_SM4),
+        key_bits = 128,
+        part_size = block_size,
+    };
+    const psa_algorithm_t alg = PSA_ALG_CBC_NO_PADDING;
+
+    psa_status_t status;
+    psa_key_attributes_t attributes = PSA_KEY_ATTRIBUTES_INIT;
+    psa_key_id_t key = 0;
+    size_t output_len = 0;
+    uint8_t iv[block_size];
+    uint8_t input[block_size];
+    uint8_t encrypt[block_size];
+    uint8_t decrypt[block_size];
+
+    status = psa_generate_random(input, sizeof(input));
+    ASSERT_STATUS(status, PSA_SUCCESS);
+
+    psa_set_key_usage_flags(&attributes,
+                            PSA_KEY_USAGE_ENCRYPT | PSA_KEY_USAGE_DECRYPT);
+    psa_set_key_algorithm(&attributes, alg);
+    psa_set_key_type(&attributes, PSA_KEY_TYPE_SM4);
+    psa_set_key_bits(&attributes, key_bits);
+
+    status = psa_generate_key(&attributes, &key);
+    ASSERT_STATUS(status, PSA_SUCCESS);
+
+    status = cipher_encrypt(key, alg, iv, sizeof(iv),
+                            input, sizeof(input), part_size,
+                            encrypt, sizeof(encrypt), &output_len);
+    ASSERT_STATUS(status, PSA_SUCCESS);
+
+    status = cipher_decrypt(key, alg, iv, sizeof(iv),
+                            encrypt, output_len, part_size,
+                            decrypt, sizeof(decrypt), &output_len);
+    ASSERT_STATUS(status, PSA_SUCCESS);
+
+    status = memcmp(input, decrypt, sizeof(input));
+    ASSERT_STATUS(status, PSA_SUCCESS);
+
+exit:
+    psa_destroy_key(key);
+    return status;
+}
+
+static psa_status_t cipher_example_encrypt_decrypt_sm4_cbc_pkcs7_multi(void)
+{
+    enum {
+        block_size = PSA_BLOCK_CIPHER_BLOCK_LENGTH(PSA_KEY_TYPE_SM4),
+        key_bits = 128,
+        input_size = 100,
+        part_size = 10,
+    };
+
+    const psa_algorithm_t alg = PSA_ALG_CBC_PKCS7;
+
+    psa_status_t status;
+    psa_key_attributes_t attributes = PSA_KEY_ATTRIBUTES_INIT;
+    psa_key_id_t key = 0;
+    size_t output_len = 0;
+    uint8_t iv[block_size], input[input_size],
+            encrypt[input_size + block_size], decrypt[input_size + block_size];
+
+    status = psa_generate_random(input, sizeof(input));
+    ASSERT_STATUS(status, PSA_SUCCESS);
+
+    psa_set_key_usage_flags(&attributes,
+                            PSA_KEY_USAGE_ENCRYPT | PSA_KEY_USAGE_DECRYPT);
+    psa_set_key_algorithm(&attributes, alg);
+    psa_set_key_type(&attributes, PSA_KEY_TYPE_SM4);
+    psa_set_key_bits(&attributes, key_bits);
+
+    status = psa_generate_key(&attributes, &key);
+    ASSERT_STATUS(status, PSA_SUCCESS);
+
+    status = cipher_encrypt(key, alg, iv, sizeof(iv),
+                            input, sizeof(input), part_size,
+                            encrypt, sizeof(encrypt), &output_len);
+    ASSERT_STATUS(status, PSA_SUCCESS);
+
+    status = cipher_decrypt(key, alg, iv, sizeof(iv),
+                            encrypt, output_len, part_size,
+                            decrypt, sizeof(decrypt), &output_len);
+    ASSERT_STATUS(status, PSA_SUCCESS);
+
+    status = memcmp(input, decrypt, sizeof(input));
+    ASSERT_STATUS(status, PSA_SUCCESS);
+
+exit:
+    psa_destroy_key(key);
+    return status;
+}
+
+static psa_status_t cipher_example_encrypt_decrypt_sm4_ctr_multi(void)
+{
+    enum {
+        block_size = PSA_BLOCK_CIPHER_BLOCK_LENGTH(PSA_KEY_TYPE_SM4),
+        key_bits = 128,
+        input_size = 100,
+        part_size = 10,
+    };
+    const psa_algorithm_t alg = PSA_ALG_CTR;
+
+    psa_status_t status;
+    psa_key_attributes_t attributes = PSA_KEY_ATTRIBUTES_INIT;
+    psa_key_id_t key = 0;
+    size_t output_len = 0;
+    uint8_t iv[block_size], input[input_size], encrypt[input_size],
+            decrypt[input_size];
+
+    status = psa_generate_random(input, sizeof(input));
+    ASSERT_STATUS(status, PSA_SUCCESS);
+
+    psa_set_key_usage_flags(&attributes,
+                            PSA_KEY_USAGE_ENCRYPT | PSA_KEY_USAGE_DECRYPT);
+    psa_set_key_algorithm(&attributes, alg);
+    psa_set_key_type(&attributes, PSA_KEY_TYPE_SM4);
+    psa_set_key_bits(&attributes, key_bits);
+
+    status = psa_generate_key(&attributes, &key);
+    ASSERT_STATUS(status, PSA_SUCCESS);
+
+    status = cipher_encrypt(key, alg, iv, sizeof(iv),
+                            input, sizeof(input), part_size,
+                            encrypt, sizeof(encrypt), &output_len);
+    ASSERT_STATUS(status, PSA_SUCCESS);
+
+    status = cipher_decrypt(key, alg, iv, sizeof(iv),
+                            encrypt, output_len, part_size,
+                            decrypt, sizeof(decrypt), &output_len);
+    ASSERT_STATUS(status, PSA_SUCCESS);
+
+    status = memcmp(input, decrypt, sizeof(input));
+    ASSERT_STATUS(status, PSA_SUCCESS);
+
+exit:
+    psa_destroy_key(key);
+    return status;
+}
+
+
 static void cipher_examples(void)
 {
     psa_status_t status;
@@ -316,6 +461,24 @@ static void cipher_examples(void)
 
     printf("cipher encrypt/decrypt AES CTR multipart:\r\n");
     status = cipher_example_encrypt_decrypt_aes_ctr_multi();
+    if (status == PSA_SUCCESS) {
+        printf("\tsuccess!\r\n");
+    }
+
+    printf("cipher encrypt/decrypt SM4 CBC no padding:\r\n");
+    status = cipher_example_encrypt_decrypt_sm4_cbc_nopad_1_block();
+    if (status == PSA_SUCCESS) {
+        printf("\tsuccess!\r\n");
+    }
+
+    printf("cipher encrypt/decrypt SM4 CBC PKCS7 multipart:\r\n");
+    status = cipher_example_encrypt_decrypt_sm4_cbc_pkcs7_multi();
+    if (status == PSA_SUCCESS) {
+        printf("\tsuccess!\r\n");
+    }
+
+    printf("cipher encrypt/decrypt SM4 CTR multipart:\r\n");
+    status = cipher_example_encrypt_decrypt_sm4_ctr_multi();
     if (status == PSA_SUCCESS) {
         printf("\tsuccess!\r\n");
     }

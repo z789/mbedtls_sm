@@ -87,6 +87,7 @@
 #define PSA_WANT_ALG_SHA_256                    1
 #define PSA_WANT_ALG_SHA_384                    1
 #define PSA_WANT_ALG_SHA_512                    1
+#define PSA_WANT_ALG_SM3                        1
 #define PSA_WANT_ALG_STREAM_CIPHER              1
 #define PSA_WANT_ALG_TLS12_PRF                  1
 #define PSA_WANT_ALG_TLS12_PSK_TO_MS            1
@@ -121,6 +122,7 @@
 #define PSA_WANT_KEY_TYPE_HMAC                  1
 #define PSA_WANT_KEY_TYPE_AES                   1
 #define PSA_WANT_KEY_TYPE_ARIA                  1
+#define PSA_WANT_KEY_TYPE_SM4                   1
 #define PSA_WANT_KEY_TYPE_CAMELLIA              1
 #define PSA_WANT_KEY_TYPE_CHACHA20              1
 #define PSA_WANT_KEY_TYPE_DES                   1

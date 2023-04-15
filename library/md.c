@@ -210,6 +210,10 @@ static psa_algorithm_t psa_alg_of_md(const mbedtls_md_info_t *info)
         case MBEDTLS_MD_SHA512:
             return PSA_ALG_SHA_512;
 #endif
+#if defined(MBEDTLS_MD_SM3_VIA_PSA)
+        case MBEDTLS_MD_SM3:
+            return PSA_ALG_SM3;
+#endif
         default:
             return PSA_ALG_NONE;
     }

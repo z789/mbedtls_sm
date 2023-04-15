@@ -48,7 +48,7 @@ def short_expression(original: str, level: int = 0) -> str:
     return short
 
 
-BLOCK_CIPHERS = frozenset(['AES', 'ARIA', 'CAMELLIA', 'DES'])
+BLOCK_CIPHERS = frozenset(['AES', 'ARIA', 'CAMELLIA', 'DES', "SM4"])
 BLOCK_MAC_MODES = frozenset(['CBC_MAC', 'CMAC'])
 BLOCK_CIPHER_MODES = frozenset([
     'CTR', 'CFB', 'OFB', 'XTS', 'CCM_STAR_NO_TAG',
@@ -152,6 +152,7 @@ class KeyType:
     KEY_TYPE_SIZES = {
         'PSA_KEY_TYPE_AES': (128, 192, 256), # exhaustive
         'PSA_KEY_TYPE_ARIA': (128, 192, 256), # exhaustive
+        'PSA_KEY_TYPE_SM4': (128,), # exhaustive
         'PSA_KEY_TYPE_CAMELLIA': (128, 192, 256), # exhaustive
         'PSA_KEY_TYPE_CHACHA20': (256,), # exhaustive
         'PSA_KEY_TYPE_DERIVE': (120, 128), # sample
@@ -229,7 +230,7 @@ class KeyType:
                                        BLOCK_CIPHER_MODES,
                                        BLOCK_AEAD_MODES):
             if alg.head in ['CMAC', 'OFB'] and \
-               self.head in ['ARIA', 'CAMELLIA']:
+               self.head in ['ARIA', 'CAMELLIA', 'SM4']:
                 return False # not implemented in Mbed TLS
             return True
         if self.head == 'CHACHA20' and alg.head == 'CHACHA20_POLY1305':
@@ -338,7 +339,8 @@ class Algorithm:
         return head
 
     CATEGORY_FROM_HEAD = {
-        'SHA': AlgorithmCategory.HASH,
+	'SHA': AlgorithmCategory.HASH,
+	'SM': AlgorithmCategory.HASH,
         'SHAKE256_512': AlgorithmCategory.HASH,
         'MD': AlgorithmCategory.HASH,
         'RIPEMD': AlgorithmCategory.HASH,
@@ -457,6 +459,7 @@ class Algorithm:
     HASH_LENGTH = {
         'PSA_ALG_MD5': 16,
         'PSA_ALG_SHA_1': 20,
+        'PSA_ALG_SM3': 32,
     }
     HASH_LENGTH_BITS_RE = re.compile(r'([0-9]+)\Z')
     @classmethod

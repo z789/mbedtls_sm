@@ -282,7 +282,6 @@ int main(int argc, char *argv[])
         memcpy(digest, IV, 16);
 
         for (i = 0; i < 8192; i++) {
-//        for (i = 0; i < 1; i++) {
             if (mbedtls_md_starts(&md_ctx) != 0) {
                 mbedtls_fprintf(stderr,
                                 "mbedtls_md_starts() returned error\n");
@@ -313,7 +312,7 @@ int main(int argc, char *argv[])
             mbedtls_fprintf(stderr, "mbedtls_cipher_setkey() returned error\n");
             goto exit;
         }
-        if (mbedtls_cipher_set_iv(&cipher_ctx, IV, 16) != 0) {
+        if (mbedtls_cipher_set_iv(&cipher_ctx, IV, mbedtls_cipher_get_iv_size(&cipher_ctx)) != 0) {
             mbedtls_fprintf(stderr, "mbedtls_cipher_set_iv() returned error\n");
             goto exit;
         }
@@ -403,7 +402,6 @@ int main(int argc, char *argv[])
             goto exit;
         }
 
-#if 0
         /*
          * Check the file size.
          */
@@ -415,7 +413,6 @@ int main(int argc, char *argv[])
                             mbedtls_cipher_get_block_size(&cipher_ctx));
             goto exit;
         }
-#endif
 
         /*
          * Subtract the IV + HMAC length.
@@ -466,7 +463,7 @@ int main(int argc, char *argv[])
             goto exit;
         }
 
-        if (mbedtls_cipher_set_iv(&cipher_ctx, IV, 16) != 0) {
+        if (mbedtls_cipher_set_iv(&cipher_ctx, IV, mbedtls_cipher_get_iv_size(&cipher_ctx)) != 0) {
             mbedtls_fprintf(stderr, "mbedtls_cipher_set_iv() returned error\n");
             goto exit;
         }
