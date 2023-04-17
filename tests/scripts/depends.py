@@ -297,6 +297,7 @@ EXCLUSIVE_GROUPS = {
                       '-MBEDTLS_GCM_C',
                       '-MBEDTLS_SSL_TICKET_C',
                       '-MBEDTLS_SSL_CONTEXT_SERIALIZATION'],
+    'MBEDTLS_SM4_C': ['-MBEDTLS_CMAC_C'],
 }
 def handle_exclusive_groups(config_settings, symbol):
     """For every symbol tested in an exclusive group check if there are other

@@ -90,6 +90,7 @@ CLASSIC_DEPENDENCIES = frozenset([
     'MBEDTLS_SHA256_C',
     'MBEDTLS_SHA512_C',
     'MBEDTLS_SM3_C',
+    'MBEDTLS_SM4_C',
 ])
 
 def is_classic_dependency(dep):
