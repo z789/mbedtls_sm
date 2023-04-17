@@ -339,8 +339,8 @@ class Algorithm:
         return head
 
     CATEGORY_FROM_HEAD = {
-	'SHA': AlgorithmCategory.HASH,
-	'SM': AlgorithmCategory.HASH,
+        'SHA': AlgorithmCategory.HASH,
+        'SM3': AlgorithmCategory.HASH,
         'SHAKE256_512': AlgorithmCategory.HASH,
         'MD': AlgorithmCategory.HASH,
         'RIPEMD': AlgorithmCategory.HASH,

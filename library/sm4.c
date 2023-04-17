@@ -437,7 +437,7 @@ int mbedtls_sm4_crypt_ctr(mbedtls_sm4_context *ctx,
 #endif /* MBEDTLS_CIPHER_MODE_CTR */
 
 #if defined(MBEDTLS_SELF_TEST)
-int mbedtls_sm4_self_test(int verbose)
+int mbedtls_sm4_self_test(int __attribute__((unused)) verbose)
 {
 	return 0;
 }

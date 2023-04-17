@@ -1,5 +1,6 @@
 set(executables
     cipher_aead_demo
+    ccm
 )
 
 foreach(exe IN LISTS executables)
