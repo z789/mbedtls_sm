@@ -108,7 +108,8 @@ APPS = \
 	psa/aead_demo \
 	psa/crypto_examples \
 	psa/hmac_demo \
-	psa/mac_demo \
+	psa/sm4 \
+	psa/sm3 \
 	psa/key_ladder_demo \
 	psa/psa_constant_names \
 	random/gen_entropy \
@@ -314,9 +315,13 @@ psa/hmac_demo$(EXEXT): psa/hmac_demo.c $(DEP)
 	echo "  CC    psa/hmac_demo.c"
 	$(CC) $(LOCAL_CFLAGS) $(CFLAGS) psa/hmac_demo.c    $(LOCAL_LDFLAGS) $(LDFLAGS) -o $@
 
-psa/mac_demo$(EXEXT): psa/mac_demo.c $(DEP)
-	echo "  CC    psa/mac_demo.c"
-	$(CC) $(LOCAL_CFLAGS) $(CFLAGS) psa/mac_demo.c    $(LOCAL_LDFLAGS) $(LDFLAGS) -o $@
+psa/sm4$(EXEXT): psa/sm4.c $(DEP)
+	echo "  CC    psa/sm4.c"
+	$(CC) $(LOCAL_CFLAGS) $(CFLAGS) psa/sm4.c    $(LOCAL_LDFLAGS) $(LDFLAGS) -o $@
+
+psa/sm3$(EXEXT): psa/sm3.c $(DEP)
+	echo "  CC    psa/sm3.c"
+	$(CC) $(LOCAL_CFLAGS) $(CFLAGS) psa/sm3.c    $(LOCAL_LDFLAGS) $(LDFLAGS) -o $@
 
 psa/key_ladder_demo$(EXEXT): psa/key_ladder_demo.c $(DEP)
 	echo "  CC    psa/key_ladder_demo.c"
