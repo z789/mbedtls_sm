@@ -44,8 +44,17 @@ ripemd160_text:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789":
 mbedtls_ripemd160 Test vector from paper #8
 ripemd160_text:"12345678901234567890123456789012345678901234567890123456789012345678901234567890":"9b752e45573d4b39f4dbd3323cab82bf63326bfb"
 
+mbedtls_sm3 Test vector  #1
+sm3_text:"abc":"66c7f0f462eeedd9d1f2d46bdc10e4e24167c4875cf2f7a2297da02b8f4ba8e0"
+
+mbedtls_sm3 Test vector  #2
+sm3_text:"abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd":"debe9ff92275b8a138604889c18e5a4d6fdb70e5387e5765293dcba39c0c5732"
+
 MD5 Selftest
 md5_selftest:
 
 RIPEMD160 Selftest
 ripemd160_selftest:
+
+SM3 Selftest
+sm3_selftest:

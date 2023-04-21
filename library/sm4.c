@@ -435,14 +435,122 @@ int mbedtls_sm4_crypt_ctr(mbedtls_sm4_context *ctx,
 	return 0;
 }
 #endif /* MBEDTLS_CIPHER_MODE_CTR */
+#endif /* !MBEDTLS_SM4_ALT */
 
 #if defined(MBEDTLS_SELF_TEST)
-int mbedtls_sm4_self_test(int __attribute__((unused)) verbose)
+
+/*
+ * The paper http://www.gmbz.org.cn/upload/2018-04-04/1522788048733065051.pdf
+ * Annex A (informative) Examples
+*/
+
+static const uint8_t sm4_test_ecb_key[MBEDTLS_SM4_KEYSIZE] =           // test key
 {
+    0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF,
+    0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10
+};
+
+static const uint8_t sm4_test_ecb_pt[MBEDTLS_SM4_BLOCKSIZE] =          // plaintext
+{
+    0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF,
+    0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10
+};
+
+static const uint8_t sm4_test_ecb_ct[2][MBEDTLS_SM4_BLOCKSIZE] =       // ciphertext
+{
+    { 0x68, 0x1E, 0xDF, 0x34, 0xD2, 0x06, 0x96, 0x5E,
+      0x86, 0xB3, 0xE9, 0x4F, 0x53, 0x6E, 0x42, 0x46 },
+    { 0x59, 0x52, 0x98, 0xC7, 0xC6, 0xFD, 0x27, 0x1F,
+      0x04, 0x02, 0xF8, 0x04, 0xC3, 0x3D, 0x3F, 0x66 }
+};
+
+static const int sm4_round[2] =                                         // round
+{
+   1, 1000000
+};
+
+#define SM4_SELF_TEST_ASSERT(cond)                  \
+    do {                                            \
+        if (cond) {                                 \
+            if (verbose)                            \
+            mbedtls_printf("failed\n");             \
+            goto exit;                              \
+        } else {                                    \
+            if (verbose)                            \
+            mbedtls_printf("passed\n");             \
+        }                                           \
+    } while (0)
+
+static int mbedtls_sm4_crypt_ecb_round(mbedtls_sm4_context *ctx,
+                           int mode, int round,
+                           const unsigned char input[MBEDTLS_SM4_BLOCKSIZE],
+                           unsigned char output[MBEDTLS_SM4_BLOCKSIZE])
+{
+	unsigned char pin_buf[MBEDTLS_SM4_BLOCKSIZE] = {0};
+	unsigned char *pin = pin_buf;
+	unsigned char *pout = output;
+	unsigned char *tmp = NULL;
+
+	memcpy(pin_buf, input, MBEDTLS_SM4_BLOCKSIZE);
+	while (round > 0) {
+		mbedtls_sm4_crypt_ecb(ctx, mode, pin, pout);
+		if (--round <= 0)
+			break;
+		tmp = pin;
+		pin = pout;
+		pout = tmp;
+	}
+
+	if (pout != output)
+		memcpy(output, pout, MBEDTLS_SM4_BLOCKSIZE);
+
 	return 0;
 }
-#endif /* MBEDTLS_SELF_TEST */
 
-#endif /* !MBEDTLS_SM4_ALT */
+/*
+ * Checkup routine
+ */
+int mbedtls_sm4_self_test(int verbose)
+{
+	int i;
+	uint8_t blk[MBEDTLS_SM4_BLOCKSIZE] = {0};
+	mbedtls_sm4_context ctx;
+	int ret = 1;
+
+	mbedtls_sm4_init(&ctx);
+
+	for (i = 0; i < 2; i++) {
+		/* test ECB encryption */
+		if (verbose) {
+			mbedtls_printf("  SM4-ECB-%d (enc): ", i+1);
+		}
+		mbedtls_sm4_setkey_enc(&ctx, sm4_test_ecb_key, sizeof(sm4_test_ecb_key)*8);
+		mbedtls_sm4_crypt_ecb_round(&ctx, MBEDTLS_SM4_ENCRYPT, sm4_round[i], sm4_test_ecb_pt, blk);
+		SM4_SELF_TEST_ASSERT(
+				memcmp(blk, sm4_test_ecb_ct[i], MBEDTLS_SM4_BLOCKSIZE)
+				!= 0);
+
+		/* test ECB decryption */
+		if (verbose) {
+			mbedtls_printf("  SM4-ECB-%d (dec): ", i+1);
+		}
+		mbedtls_sm4_setkey_dec(&ctx, sm4_test_ecb_key, sizeof(sm4_test_ecb_key)*8);
+		mbedtls_sm4_crypt_ecb_round(&ctx, MBEDTLS_SM4_DECRYPT, sm4_round[i], sm4_test_ecb_ct[i], blk);
+		SM4_SELF_TEST_ASSERT(
+				memcmp(blk, sm4_test_ecb_pt, MBEDTLS_SM4_BLOCKSIZE)
+				!= 0);
+	}
+	if (verbose) {
+		mbedtls_printf("\n");
+	}
+
+	ret = 0;
+
+exit:
+	mbedtls_sm4_free(&ctx);
+	return ret;
+}
+
+#endif /* MBEDTLS_SELF_TEST */
 
 #endif /* MBEDTLS_SM4_C */

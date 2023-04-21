@@ -33,6 +33,10 @@ Information on SHA512
 depends_on:MBEDTLS_MD_CAN_SHA512
 md_info:MBEDTLS_MD_SHA512:"SHA512":64
 
+Information on SM3
+depends_on:MBEDTLS_MD_CAN_SM3
+md_info:MBEDTLS_MD_SM3:"SM3":32
+
 generic mbedtls_md5 Test vector RFC1321 #1
 depends_on:MBEDTLS_MD_CAN_MD5
 md_text:MBEDTLS_MD_MD5:"":"d41d8cd98f00b204e9800998ecf8427e"
@@ -60,6 +64,14 @@ md_text:MBEDTLS_MD_MD5:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
 generic mbedtls_md5 Test vector RFC1321 #7
 depends_on:MBEDTLS_MD_CAN_MD5
 md_text:MBEDTLS_MD_MD5:"12345678901234567890123456789012345678901234567890123456789012345678901234567890":"57edf4a22be3c955ac49da2e2107b67a"
+
+generic mbedtls_sm3 Test vector #1
+depends_on:MBEDTLS_MD_CAN_SM3
+md_text:MBEDTLS_MD_SM3:"abc":"66c7f0f462eeedd9d1f2d46bdc10e4e24167c4875cf2f7a2297da02b8f4ba8e0"
+
+generic mbedtls_sm3 Test vector #2
+depends_on:MBEDTLS_MD_CAN_SM3
+md_text:MBEDTLS_MD_SM3:"abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd":"debe9ff92275b8a138604889c18e5a4d6fdb70e5387e5765293dcba39c0c5732"
 
 generic mbedtls_ripemd160 Test vector from paper #1
 depends_on:MBEDTLS_MD_CAN_RIPEMD160
