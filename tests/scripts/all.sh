@@ -946,13 +946,13 @@ component_test_full_cmake_gcc_asan () {
 
     # TODO: replace "mbedtls_ecp_curve" with "mbedtls_ecp" also for
     # "full-tls-external" once Issue6839 is completed
-    not grep mbedtls_ecp_curve full-tls-external
-    not grep mbedtls_ecp full-x509-external
+    not grep mbedtls_ecp_curve full-libmbedtls-external
+    not grep mbedtls_ecp full-libmbedx509-external
 
-    rm  full-tls-external \
-        full-tls-modules \
-        full-x509-external \
-        full-x509-modules
+    rm  full-libmbedtls-external \
+        full-libmbedtls-modules \
+        full-libmbedx509-external \
+        full-libmbedx509-modules
 }
 
 component_test_psa_crypto_key_id_encodes_owner () {
@@ -1217,6 +1217,17 @@ component_test_psa_external_rng_no_drbg_use_psa () {
 
     msg "test: PSA_CRYPTO_EXTERNAL_RNG minus *_DRBG, PSA crypto - ssl-opt.sh (subset)"
     tests/ssl-opt.sh -f 'Default\|opaque'
+}
+
+component_test_sw_inet_pton () {
+    msg "build: default plus MBEDTLS_TEST_SW_INET_PTON"
+
+    # MBEDTLS_TEST_HOOKS required for x509_crt_parse_cn_inet_pton
+    scripts/config.py set MBEDTLS_TEST_HOOKS
+    make CFLAGS="-DMBEDTLS_TEST_SW_INET_PTON"
+
+    msg "test: default plus MBEDTLS_TEST_SW_INET_PTON"
+    make test
 }
 
 component_test_crypto_full_md_light_only () {
